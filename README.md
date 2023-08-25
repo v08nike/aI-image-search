@@ -1,4 +1,4 @@
-# Question Two
+# Question Two Front End
 
 ## Available Scripts
 You are tasked with creating a simple API following the requirements handed to you. This
@@ -41,5 +41,5 @@ server(AWS/Google Cloud/Azure…). Level: Challenging
 ● Your application can handle > 1000s req/s without breaking a sweat(Please provide
 us your load test method.) Level: Insane
 
-## Frontend for testing
+## Frontend
 https://frabjous-salamander-91a95f.netlify.app
