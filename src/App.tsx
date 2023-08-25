@@ -1,27 +1,18 @@
 import React, { useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import "./App.css";
+import { GET_IMAGES } from "./queries/getImages";
+import Image from "./components/Image";
 
 function App() {
   const [keyword, setKeyword] = useState<string>("");
-
-  const GET_IMAGES = gql`
-    query Query($keyword: String!) {
-      images(keyword: $keyword) {
-        image_ID
-        source
-        preview
-        title
-        thumbnails
-        tags
-      }
-    }
-  `;
 
   const { data, loading } = useQuery(GET_IMAGES, {
     variables: { keyword },
     skip: !keyword,
   });
+
+  const images = data?.images ?? [];
 
   return (
     <div className="App">
@@ -38,21 +29,13 @@ function App() {
         <p className="text-red-500">
           {!loading &&
             keyword.length > 0 &&
-            (!data?.images || data?.images.length === 0) &&
+            images.length === 0 &&
             "There is no search result!"}
         </p>
         <div className="flex mx-20 mt-6 max-w-7xl flex-wrap gap-4">
-          {data &&
-            data.images?.map((image: any) => (
-              <div key={image.image_ID} className="w-[200px] h-[200px]">
-                <img
-                  src={image.thumbnails}
-                  alt={image.title || ""}
-                  className="w-auto h-[180px] mx-auto"
-                />
-                <div className="text-sm mt-2">Come from {image.source}</div>
-              </div>
-            ))}
+          {images.map((image: any) => (
+            <Image key={image.image_ID} image={image} />
+          ))}
         </div>
       </header>
     </div>
