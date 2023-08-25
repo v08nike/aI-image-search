@@ -18,7 +18,7 @@ function App() {
     }
   `;
 
-  const { data } = useQuery(GET_IMAGES, {
+  const { data, loading } = useQuery(GET_IMAGES, {
     variables: { keyword },
     skip: !keyword,
   });
@@ -35,6 +35,12 @@ function App() {
             onChange={(e) => setKeyword(e.target.value)}
           />
         </div>
+        <p className="text-red-500">
+          {!loading &&
+            keyword.length > 0 &&
+            (!data?.images || data?.images.length === 0) &&
+            "There is no search result!"}
+        </p>
         <div className="flex mx-20 mt-6 max-w-7xl flex-wrap gap-4">
           {data &&
             data.images?.map((image: any) => (
