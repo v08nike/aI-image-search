@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useQuery } from "@apollo/client";
 import "./App.css";
 import { GET_IMAGES } from "./queries/getImages";
@@ -8,14 +8,14 @@ import { debounce } from "lodash";
 let count = 0;
 
 function App() {
-  const [keyword, setKeyword] = useState<string>("");
-
-  const { data, loading } = useQuery(GET_IMAGES, {
-    variables: { keyword },
-    skip: !keyword,
+  const { data, loading, refetch } = useQuery(GET_IMAGES, {
+    variables: { keyword: "" },
   });
 
-  const onRefetch = debounce((e) => setKeyword(e.target.value), 500);
+  const onRefetch = debounce(
+    (e) => e.target.value?.length > 0 && refetch({ keyword: e.target.value }),
+    500
+  );
 
   const onChange = useCallback((e: any) => onRefetch(e), [onRefetch]);
 
@@ -30,7 +30,6 @@ function App() {
         </div>
         <p className="text-red-500">
           {!loading &&
-            keyword.length > 0 &&
             data?.images?.length === 0 &&
             "There is no search result!"}
         </p>
