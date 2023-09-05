@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useQuery } from "@apollo/client";
 import "./App.css";
 import { GET_IMAGES } from "./queries/getImages";
